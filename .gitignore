@@ -1,12 +1,4 @@
-# Ignore all
-*
-
-# Whitelist
-!.gitignore
-!*.md
-!*.py
-!*.sh
-!Dockerfile
-!.dockerignore
-!requirements.txt
-!*.json
+# Black-listed
+/venv
+/.idea
+/__pycache__

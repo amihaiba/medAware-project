@@ -1,0 +1,54 @@
+version: "3.8"
+services:
+  med-app:
+    build: .
+    container_name: med-app
+    restart: unless-stopped
+    depends_on:
+      - mysql
+    networks:
+      - med-network
+  
+  nginx:
+    image: nginx:1.24.0
+    container_name: med-app-nginx
+    restart: unless-stopped
+    depends_on:
+      - med-app
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx-conf:/etc/nginx/conf.d:ro
+    networks:
+      - med-network
+  
+  mysql:
+    image: mysql:8.0.33
+    container_name: med-app-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: med_db
+      MYSQL_USER: med_user
+    secrets:
+      - mysql_root_pass
+      - mysql_pass
+    # ports:
+    #   - 3306:3306
+    volumes:  
+      - mysql-data:/var/lib/mysql
+      - ./init-scripts:/docker-entrypoint-initdb.d:ro
+    networks:
+      - med-network
+
+volumes:
+  mysql-data:
+
+networks:
+  med-network:
+
+secrets:
+  mysql_pass:
+    file: ./secrets/mysql_pass.txt
+  mysql_root_pass:
+    file: ./secrets/mysql_root_pass.txt
