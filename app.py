@@ -16,10 +16,12 @@ def request_handler():
     is_db = request.json.get('is_db')
     file_name = request.json.get('file_name')
     if not os.path.isfile('staging/' + file_name):
-        return jsonify({'error': 'File does not exist'}), 400
+        return jsonify({'error': 'File not found'}), 400
     response = response_handler(file_name)
     if is_db:
-        db_handler(file_name)
+        status_code = db_handler(file_name)
+        if status_code != "success":
+            return jsonify({'error': str(status_code)}), 400
         archiver(file_name)
     return response
 
@@ -27,24 +29,44 @@ def request_handler():
 def response_handler(file_name):
     """Handle sending response to requests"""
     with open('staging/' + file_name, 'r') as f:
-        content = f.read()
+        content = f.read().strip('\n')
         return jsonify({f"{file_name}": content})
 
 
 def db_handler(file_name):
     """Handle interface with the database"""
-    pass
+    # Read specified file's contents
+    with open('staging/' + file_name, 'r') as f:
+        content = f.read().strip('\n')
+    # Connect to MySQL database to insert a record
+    try:
+        med_db = mysql.connector.connect(
+            host='localhost',
+            user='root',
+            password='root',
+            database='med_db'
+        )
+        db_cursor = med_db.cursor()
+        # Set MySQL command to be used
+        sql = "INSERT INTO med_records (file_name, file_content) VALUES (%s, %s)"
+        # Set MySQL command parameters
+        val = (file_name, content)
+        db_cursor.execute(sql, val)
+        med_db.commit()
+        # Close connection to MySql database
+        if med_db.is_connected():
+            med_db.close()
+        if db_cursor:
+            db_cursor.close()
+        return "success"
+    except mysql.connector.Error as err:
+        return err
 
 
 def archiver(file_name):
     """Move specified file from staging dir to done dir"""
     os.rename('staging/' + file_name, 'done/' + file_name)
-
-
-@app.route("/app_health")
-def health_check():
-    """Nginx health check endpoint"""
-    return jsonify({'status': 'healthy'}), 200
+    return "success"
 
 
 if __name__ == "__main__":

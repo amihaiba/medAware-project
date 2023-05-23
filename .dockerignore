@@ -8,6 +8,8 @@
 !requirements.txt
 !mysql-secrets.txt
 !*.json
+!staging
+!done
 
 venv
 .idea
