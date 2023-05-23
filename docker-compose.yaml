@@ -28,11 +28,9 @@ services:
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: root
-    secrets:
-      - mysql_root_pass
-      - mysql_pass
-    # ports:
-    #   - 3306:3306
+    # secrets:
+    #   - mysql_root_pass
+    #   - mysql_pass
     volumes:  
       - mysql-data:/var/lib/mysql
       - ./init-scripts:/docker-entrypoint-initdb.d:ro
@@ -45,8 +43,8 @@ volumes:
 networks:
   med-network:
 
-secrets:
-  mysql_pass:
-    file: ./secrets/mysql_pass.txt
-  mysql_root_pass:
-    file: ./secrets/mysql_root_pass.txt
+# secrets:
+#   mysql_pass:
+#     file: ./secrets/mysql_pass.txt
+#   mysql_root_pass:
+#     file: ./secrets/mysql_root_pass.txt

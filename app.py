@@ -38,12 +38,12 @@ def db_handler(file_name):
     # Read specified file's contents
     with open('staging/' + file_name, 'r') as f:
         content = f.read().strip('\n')
-    # Connect to MySQL database to insert a record
+    # Connect to MySQL database to insert a record, handle connection and duplicate key errors
     try:
         med_db = mysql.connector.connect(
-            host='localhost',
-            user='med_user',
-            password='med_pass',
+            host='mysql',
+            user='root',
+            password='root',
             database='med_db'
         )
         db_cursor = med_db.cursor()
