@@ -1,7 +1,7 @@
 -- Create the database, user and a table for the app to insert records into
 CREATE DATABASE IF NOT EXISTS med_db;
-CREATE USER IF NOT EXISTS 'med_user'@'localhost' IDENTIFIED BY 'med_pass';
-GRANT ALL PRIVILEGES ON med_db.* TO 'med_user'@'localhost';
+CREATE USER IF NOT EXISTS 'med_user'@'%' IDENTIFIED BY 'med_pass';
+GRANT ALL PRIVILEGES ON med_db.* TO 'med_user'@'%';
 FLUSH PRIVILEGES;
 USE med_db;
 CREATE TABLE IF NOT EXISTS med_records
