@@ -4,7 +4,7 @@
 
 import os
 from flask import Flask, request, jsonify
-import mysql
+import mysql.connector
 app = Flask(__name__)
 
 

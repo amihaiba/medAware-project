@@ -1,0 +1,12 @@
+# Ignore all
+*
+
+# Whitelist
+!.gitignore
+!*.md
+!*.py
+!*.sh
+!Dockerfile
+!.dockerignore
+!requirements.txt
+!*.json

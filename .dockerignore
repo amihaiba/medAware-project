@@ -1,0 +1,13 @@
+# Ignore all
+*
+
+# Whitelist
+!*.py
+!Dockerfile
+!.dockerignore
+!requirements.txt
+!mysql-secrets.txt
+!*.json
+
+venv
+.idea
