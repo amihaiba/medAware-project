@@ -70,6 +70,12 @@ def archiver(file_name):
     return "success"
 
 
+@app.route("/app_health")
+def health_check():
+    """Nginx health check endpoint"""
+    return jsonify({'status': 'healthy'}), 200
+
+
 if __name__ == "__main__":
     """Tests can be added here"""
     app.run(debug=True)
