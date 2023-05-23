@@ -28,13 +28,11 @@ services:
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: med_db
-      MYSQL_USER: med_user
     secrets:
       - mysql_root_pass
       - mysql_pass
-    ports:
-      - 3306:3306
+    # ports:
+    #   - 3306:3306
     volumes:  
       - mysql-data:/var/lib/mysql
       - ./init-scripts:/docker-entrypoint-initdb.d:ro

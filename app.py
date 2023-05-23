@@ -42,8 +42,8 @@ def db_handler(file_name):
     try:
         med_db = mysql.connector.connect(
             host='localhost',
-            user='root',
-            password='root',
+            user='med_user',
+            password='med_pass',
             database='med_db'
         )
         db_cursor = med_db.cursor()
